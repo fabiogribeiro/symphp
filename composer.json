@@ -1,0 +1,19 @@
+{
+    "name": "fabiogribeiro/symphp",
+    "description": "wip",
+    "keywords": ["mathematics", "math,", "symbolic"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fábio Ribeiro",
+            "email": "fabio97ribeiro@hotmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {"SymPHP\\": "SymPHP"}
+    }
+}
