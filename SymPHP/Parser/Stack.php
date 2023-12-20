@@ -4,9 +4,9 @@ namespace SymPHP\Parser;
 
 class Stack
 {
-    private $stack = [];
+    private array $stack = [];
 
-    public function push($el)
+    public function push($el) : void
     {
         $this->stack[] = $el;
     }
@@ -18,15 +18,15 @@ class Stack
 
     public function top()
     {
-        return end($stack);
+        return end($this->stack);
     }
 
-    public function empty()
+    public function empty() : bool
     {
         return count($this->stack) === 0;
     }
 
-    public function count()
+    public function count() : int
     {
         return count($this->stack);
     }

@@ -2,14 +2,15 @@
 
 namespace SymPHP\Lexer;
 
+use Exception;
 use SymPHP\Lexer\Token;
 use SymPHP\Lexer\TokenType;
 
 class Lexer
 {
     private const PATTERNS = [
-        '/-?\d+[,\.]\d+(e[+-]?\d+)?/' => TokenType::Float,
-        '/-?\d+/' => TokenType::Integer,
+        '/\d+[,\.]\d+(e[+-]?\d+)?/' => TokenType::Float,
+        '/\d+/' => TokenType::Integer,
         '/\(/' => TokenType::Open,
         '/\)/' => TokenType::Close,
         '/\+/' => TokenType::Addition,
@@ -43,8 +44,7 @@ class Lexer
             }
 
             if (!$token) {
-                echo "Error in lexing.\n";
-                return [];
+                throw new Exception("Syntax error.");
             }
 
             $tokens[] = $token;
