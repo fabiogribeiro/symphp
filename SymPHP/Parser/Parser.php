@@ -5,6 +5,7 @@ namespace SymPHP\Parser;
 use Exception;
 use SymPHP\Lexer\{Lexer, Token, TokenType};
 use SymPHP\Parser\Stack;
+use SymPHP\Expression\{Integer, Real, Add, Sub, Mul, Div, Exp, Factorial, Symbol, Func};
 
 class Parser
 {
@@ -31,7 +32,7 @@ class Parser
                     throw new Exception("Syntax error");
                 }
                 else {
-                    $this->outputStack->push($token);
+                    $this->pushToOutput($token);
                 }
             }
             elseif ($token->isOperator) {
@@ -41,7 +42,7 @@ class Parser
                         ($token->type === TokenType::Addition ||
                         $token->type === TokenType::Subtraction)) {
                             if ($token->type === TokenType::Subtraction) {
-                                $this->outputStack->push(new Token('-1', TokenType::Integer));
+                                $this->pushToOutput(new Token('-1', TokenType::Integer));
                                 $this->processOperator(new Token('*', TokenType::Multiplication));
                             }
                         }
@@ -60,7 +61,7 @@ class Parser
                     }
 
                     if ($token->type === TokenType::Subtraction) {
-                        $this->outputStack->push(new Token('-1', TokenType::Integer));
+                        $this->pushToOutput(new Token('-1', TokenType::Integer));
                         $this->processOperator(new Token('*', TokenType::Multiplication));
                     }
                 }
@@ -83,7 +84,7 @@ class Parser
 
                 $op = $this->operatorStack->pop();
                 while ($op->type !== TokenType::Open) {
-                    $this->outputStack->push($op);
+                    $this->pushToOutput($op);
 
                     $op = $this->operatorStack->pop();
                     if (!$op) {
@@ -92,7 +93,7 @@ class Parser
                 }
 
                 if (($op = $this->operatorStack->top()) && $op->type === TokenType::Function) {
-                    $this->outputStack->push($this->operatorStack->pop());
+                    $this->pushToOutput($this->operatorStack->pop());
                 }
             }
             elseif ($token->type === TokenType::Function) {
@@ -118,10 +119,14 @@ class Parser
                 throw new Exception("Syntax error.");
             }
 
-            $this->outputStack->push($op);
+            $this->pushToOutput($op);
         }
 
-        // TODO: Check if outputStack > 1 once expressions are done.
+        if ($this->outputStack->count() !== 1) {
+            // Only one tree at the end.
+            throw new Exception("Syntax error.");
+        }
+
         return $this->outputStack;
     }
 
@@ -160,9 +165,60 @@ class Parser
         while (!$this->operatorStack->empty() &&
                 $this->leastPrecedence($op, $this->operatorStack->top())) {
 
-            $this->outputStack->push($this->operatorStack->pop());
+            $this->pushToOutput($this->operatorStack->pop());
         }
 
         $this->operatorStack->push($op);
+    }
+
+    private function pushToOutput(Token $token)
+    {
+        $out = null;
+
+        // Process token
+        switch($token->type) {
+            case TokenType::Integer:
+                $out = new Integer($token->value);
+                break;
+            case TokenType::Float:
+                $out = new Real($token->value);
+                break;
+            case TokenType::Symbol:
+                $out = new Symbol($token->value);
+                break;
+            case TokenType::Addition:
+                $a = $this->outputStack->pop();
+                $b = $this->outputStack->pop();
+                $out = new Add($b, $a);
+                break;
+            case TokenType::Subtraction:
+                $a = $this->outputStack->pop();
+                $b = $this->outputStack->pop();
+                $out = new Sub($b, $a);
+                break;
+            case TokenType::Multiplication:
+                $a = $this->outputStack->pop();
+                $b = $this->outputStack->pop();
+                $out = new Mul($b, $a);
+                break;
+            case TokenType::Division:
+                $a = $this->outputStack->pop();
+                $b = $this->outputStack->pop();
+                $out = new Div($b, $a);
+                break;
+            case TokenType::Exponentiation:
+                $a = $this->outputStack->pop();
+                $b = $this->outputStack->pop();
+                $out = new Exp($b, $a);
+                break;
+            case TokenType::Factorial:
+                $out = new Factorial($this->outputStack->pop());
+                break;
+            case TokenType::Function:
+                $out = new Func($this->outputStack->pop());
+                break;
+        }
+
+        $this->outputStack->push($out);
     }
 }
