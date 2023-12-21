@@ -2,6 +2,8 @@
 
 namespace SymPHP\Parser;
 
+use Exception;
+
 class Stack
 {
     private array $stack = [];
@@ -13,6 +15,10 @@ class Stack
 
     public function pop()
     {
+        if ($this->empty()) {
+            throw new Exception("Syntax error.");
+        }
+
         return array_pop($this->stack);
     }
 

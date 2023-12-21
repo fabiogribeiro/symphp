@@ -41,7 +41,7 @@ class Token
         }
 
         if ($this->isOperator) {
-            if ($this->type == TokenType::Exponentiation) {
+            if ($this->type === TokenType::Exponentiation || $this->type === TokenType::Factorial) {
                 $this->isRightAssoc = true;
                 $this->isLeftAssoc = false;
             }

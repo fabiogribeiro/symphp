@@ -11,6 +11,10 @@ class Lexer
     private const PATTERNS = [
         '/\d+[,\.]\d+(e[+-]?\d+)?/' => TokenType::Float,
         '/\d+/' => TokenType::Integer,
+        '/sqrt/' => TokenType::Function,
+        '/sin/' => TokenType::Function,
+        '/cos/' => TokenType::Function,
+        '/tan/' => TokenType::Function,
         '/\(/' => TokenType::Open,
         '/\)/' => TokenType::Close,
         '/\+/' => TokenType::Addition,

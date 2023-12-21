@@ -42,14 +42,19 @@ class Parser
                         $token->type === TokenType::Subtraction)) {
                             if ($token->type === TokenType::Subtraction) {
                                 $this->outputStack->push(new Token('-1', TokenType::Integer));
-                                $this->processOperator(new Token('*', TokenType::Multiplication));       
+                                $this->processOperator(new Token('*', TokenType::Multiplication));
                             }
                         }
+                    elseif ($lastProcessedToken?->type === TokenType::Factorial) {
+                        $this->processOperator($token);
+                    }
                     else {
                         throw new Exception("Syntax error.");
                     }
                 }
-                elseif (!$lastProcessedToken || $lastProcessedToken->type === TokenType::Open) {
+                elseif (!$lastProcessedToken || $lastProcessedToken->type === TokenType::Open ||
+                                                $lastProcessedToken->type == TokenType::Function) {
+
                     if ($token->type === TokenType::Multiplication || $token->type === TokenType::Division) {
                         throw new Exception("Syntax error.");
                     }
@@ -71,7 +76,8 @@ class Parser
                 $this->operatorStack->push($token);
             }
             elseif ($token->type === TokenType::Close) {
-                if ($this->operatorStack->empty() || $lastProcessedToken?->isOperator) {
+                if ($this->operatorStack->empty() ||
+                    ($lastProcessedToken?->isOperator && $lastProcessedToken?->type !== TokenType::Factorial)) {
                     throw new Exception("Syntax error.");
                 }
 
@@ -84,16 +90,30 @@ class Parser
                         throw new Exception("Syntax error.");
                     }
                 }
+
+                if (($op = $this->operatorStack->top()) && $op->type === TokenType::Function) {
+                    $this->outputStack->push($this->operatorStack->pop());
+                }
+            }
+            elseif ($token->type === TokenType::Function) {
+                if ($lastProcessedToken && !($lastProcessedToken->isOperator ||
+                                            $lastProcessedToken->type === TokenType::Open)) {
+
+                    throw new Exception("Syntax error.");
+                }
+
+                $this->operatorStack->push($token);
             }
 
             $lastProcessedToken = $token;
         }
 
-        if ($lastProcessedToken?->isOperator) {
+        if ($lastProcessedToken?->isOperator && $lastProcessedToken?->type !== TokenType::Factorial) {
             throw new Exception("Syntax error.");
         }
 
-        while ($op = $this->operatorStack->pop()) {
+        while (!$this->operatorStack->empty()) {
+            $op = $this->operatorStack->pop();
             if ($op->type === TokenType::Open) {
                 throw new Exception("Syntax error.");
             }
@@ -101,6 +121,7 @@ class Parser
             $this->outputStack->push($op);
         }
 
+        // TODO: Check if outputStack > 1 once expressions are done.
         return $this->outputStack;
     }
 
@@ -112,9 +133,12 @@ class Parser
                 return 1;
             case TokenType::Multiplication:
             case TokenType::Division:
+            case TokenType::Function:
                 return 2;
             case TokenType::Exponentiation:
                 return 3;
+            case TokenType::Factorial:
+                return 4;
         }
 
         return 0;
