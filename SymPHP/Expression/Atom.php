@@ -6,6 +6,7 @@ trait Atom
 {
     public $num;
     public $denom = 1;
+    public bool $isAtom = true;
 
     public function __toString()
     {
