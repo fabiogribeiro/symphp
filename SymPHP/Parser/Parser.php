@@ -127,7 +127,7 @@ class Parser
             throw new Exception("Syntax error.");
         }
 
-        return $this->outputStack;
+        return $this->outputStack->pop();
     }
 
     private function getPrecedence(Token $token) : int
