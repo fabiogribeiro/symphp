@@ -38,4 +38,9 @@ class Symbol
 
         return new Div($this, $other);
     }
+
+    public function simplify()
+    {
+        return $this;
+    }
 }

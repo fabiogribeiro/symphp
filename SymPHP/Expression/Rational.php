@@ -59,4 +59,17 @@ class Rational
 
         return $this->mul($other->div());
     }
+
+    public function simplify()
+    {
+        if ($this->num === 0) {
+            return new Integer(0);
+        }
+        elseif ($this->num % $this->denom === 0) {
+            return new Integer($this->num / $this->denom);
+        }
+        // TODO: implement gdc to simplify frac
+
+        return $this;
+    }
 }

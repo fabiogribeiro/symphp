@@ -52,4 +52,9 @@ class Real
 
         return $this->mul($other->div());
     }
+
+    public function simplify()
+    {
+        return $this;
+    }
 }

@@ -55,4 +55,9 @@ class Integer
 
         return $this->mul($other->div());
     }
+
+    public function simplify()
+    {
+        return $this;
+    }
 }
