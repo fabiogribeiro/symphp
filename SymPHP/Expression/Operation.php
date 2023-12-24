@@ -43,9 +43,8 @@ trait Operation
                 if (isset($el->isOperation)) {
                     return $el->flatten();
                 }
-                else {
-                    return $el;
-                }
+
+                return $el;
             }, $this->terms);
 
             return (new Add(array_shift($ts), new Mul(new Integer(-1), ...$ts)))->flatten();

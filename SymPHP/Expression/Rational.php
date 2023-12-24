@@ -2,6 +2,14 @@
 
 namespace SymPHP\Expression;
 
+function gcd(int $a, int $b) : int
+{
+    $m = $a % $b;
+    if ($m === 0) return $b;
+
+    return gcd($b, $m);
+}
+
 class Rational
 {
     use Atom;
@@ -65,10 +73,16 @@ class Rational
         if ($this->num === 0) {
             return new Integer(0);
         }
-        elseif ($this->num % $this->denom === 0) {
-            return new Integer($this->num / $this->denom);
+        else {
+            $n = gcd($this->num, $this->denom);
+            $num = $this->num / $n; $denom = $this->denom / $n;
+
+            if ($denom === 1) {
+                return new Integer($num);
+            }
+
+            return new Rational($num, $denom);
         }
-        // TODO: implement gdc to simplify frac
 
         return $this;
     }
