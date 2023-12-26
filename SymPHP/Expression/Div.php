@@ -19,8 +19,8 @@ class Div
 
         $a = $this->terms[0]->simplify();
         $b = $this->terms[1]->simplify();
-        if (!($a instanceof Symbol) && !($b instanceof Symbol) && isset($a->isAtom) && isset($b->isAtom)) {
-            return $a->div($b)->simplify();
+        if (isset($a->isAtom) && isset($b->isAtom)) {
+            return $a->div($b);
         }
 
         return new Div($a, $b);

@@ -19,6 +19,9 @@ class Exp
 
         $a = $this->terms[0]->simplify();
         $b = $this->terms[1]->simplify();
+        if (isset($a->isAtom) && isset($b->isAtom)) {
+            return $a->exp($b);
+        }
 
         return new Exp($a, $b);
     }

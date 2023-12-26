@@ -39,6 +39,20 @@ class Symbol
         return new Div($this, $other);
     }
 
+    public function exp($other)
+    {
+        if (isset($other->isAtom)) {
+            if ($other->num === 0) {
+                return new Integer(1);
+            }
+            elseif ($other->num === 1) {
+                return $this;
+            }
+        }
+
+        return new Exp($this, $other);
+    }
+
     public function simplify()
     {
         return $this;

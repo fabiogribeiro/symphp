@@ -59,6 +59,18 @@ class Integer
         return $this->mul($other->div());
     }
 
+    public function exp($other)
+    {
+        if ($other instanceof Integer) {
+            return new Integer(pow($this->num, $other->num));
+        }
+        elseif(!($other instanceof Symbol) && isset($other->isAtom)) {
+            return new Real(pow($this->num, $other->num/$other->denom));
+        }
+
+        return new Exp($this, $other);
+    }
+
     public function simplify()
     {
         return $this;

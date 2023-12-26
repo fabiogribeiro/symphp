@@ -50,7 +50,7 @@ class Rational
     public function mul($other)
     {
         if ($other instanceof Integer || $other instanceof Rational) {
-            return new Rational($this->num * $other->num, $this->denom * $other->denom);
+            return (new Rational($this->num * $other->num, $this->denom * $other->denom))->simplify();
         }
         elseif ($other instanceof Real) {
             return new Real($this->num/$this->denom * $other->num);
@@ -66,6 +66,18 @@ class Rational
         }
 
         return $this->mul($other->div());
+    }
+
+    public function exp($other)
+    {
+        if ($other instanceof Integer) {
+            return (new Rational(pow($this->num, $other->num), pow($this->denom, $other->num)))->simplify();
+        }
+        elseif (!($other instanceof Symbol) && isset($other->isAtom)) {
+            return new Real(pow($this->num/$this->denom, $other->num/$other->denom));
+        }
+
+        return new Exp($this, $other);
     }
 
     public function simplify()

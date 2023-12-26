@@ -178,10 +178,10 @@ class Parser
         // Process token
         switch($token->type) {
             case TokenType::Integer:
-                $out = new Integer($token->value);
+                $out = new Integer(intval($token->value));
                 break;
             case TokenType::Float:
-                $out = new Real($token->value);
+                $out = new Real(floatval($token->value));
                 break;
             case TokenType::Symbol:
                 $out = new Symbol($token->value);
