@@ -49,6 +49,7 @@ trait Operation
 
             return (new Add(array_shift($ts), new Mul(new Integer(-1), ...$ts)))->flatten();
         }
+
         return $this;
     }
 }

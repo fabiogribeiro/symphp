@@ -43,6 +43,9 @@ class Integer
         elseif ($other instanceof Real) {
             return new Real($this->num * $other->num);
         }
+        elseif ($other instanceof Rational) {
+            return $other->mul($this);
+        }
 
         return new Mul($this, $other);
     }

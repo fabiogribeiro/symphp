@@ -10,4 +10,9 @@ class Factorial
     {
         $this->terms = [$expr];   
     }
+
+    public function simplify()
+    {
+        return $this;
+    }
 }

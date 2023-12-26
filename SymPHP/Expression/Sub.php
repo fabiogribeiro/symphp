@@ -10,4 +10,9 @@ class Sub
     {   
         $this->terms = $terms;
     }
+
+    public function simplify()
+    {
+        return $this->flatten()->simplify();
+    }
 }
