@@ -215,7 +215,7 @@ class Parser
                 $out = new Factorial($this->outputStack->pop());
                 break;
             case TokenType::Function:
-                $out = new Func($this->outputStack->pop());
+                $out = new Func($token->value, $this->outputStack->pop());
                 break;
         }
 
