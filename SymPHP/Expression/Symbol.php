@@ -57,4 +57,9 @@ class Symbol
     {
         return $this;
     }
+
+    public function asCoeff()
+    {
+        return [new Integer(1), $this];
+    }
 }

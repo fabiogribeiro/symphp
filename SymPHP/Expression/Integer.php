@@ -55,6 +55,13 @@ class Integer
         if (!$other) {
             return new Rational(1, $this->num);
         }
+        if ($this->num === 1) {
+            if ($other instanceof Symbol) {
+                return new Div($this, $other);
+            }
+
+            return new Rational($this, $other);
+        }
 
         return $this->mul($other->div());
     }
