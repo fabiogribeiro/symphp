@@ -30,7 +30,7 @@ class Add
             if (!($term instanceof Symbol) && isset($term->isAtom)) {
                 $r = $r->add($term);
             }
-            elseif (($term instanceof Symbol || $term instanceof Mul) && ($coeff = $term->asCoeff())) {
+            elseif (method_exists($term, 'asCoeff') && ($coeff = $term->asCoeff())) {
                 $k = $coeff[1]->__toString();
                 if (isset($similar[$k])) {
                     $similar[$k][0] = $similar[$k][0]->add($coeff[0]);

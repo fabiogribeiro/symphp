@@ -62,4 +62,9 @@ class Symbol
     {
         return [new Integer(1), $this];
     }
+
+    public function asPow()
+    {
+        return [$this, new Integer(1)];
+    }
 }

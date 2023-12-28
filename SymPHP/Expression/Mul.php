@@ -21,6 +21,7 @@ class Mul
     public function simplify()
     {
         $r = new Integer(1);
+        $similar = [];
         $rest = [];
 
         foreach ($this->terms as $term) {
@@ -33,11 +34,25 @@ class Mul
 
                 $r = $r->mul($term);
             }
+            elseif (method_exists($term, 'asPow') && ($coeff = $term->asPow())) {
+                $k = $coeff[0]->__toString();
+                if (isset($similar[$k]))  {
+                    $similar[$k][1] = $similar[$k][1]->add($coeff[1]);
+                }
+                else {
+                    $similar[$k] = [$coeff[0], $coeff[1]];
+                }
+            }
             else {
                 $rest[] = $term;
             }
         }
 
+        foreach ($similar as $k => $v) {
+            $similar[$k] = (new Exp($v[0], $v[1]))->simplify();
+        }
+
+        $rest = array_merge(array_values($similar), $rest);
         if (!$rest) {
             return $r;
         }

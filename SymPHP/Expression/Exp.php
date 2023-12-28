@@ -25,4 +25,13 @@ class Exp
 
         return new Exp($a, $b);
     }
+
+    public function asPow()
+    {
+        if (isset($this->terms[0]->isAtom) && isset($this->terms[1]->isAtom) && !($this->terms[1] instanceof Symbol)) {
+            return [$this->terms[0], $this->terms[1]];
+        }
+
+        return null;
+    }
 }

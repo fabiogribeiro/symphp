@@ -28,8 +28,8 @@ class Rational
     public function add($other)
     {
         if ($other instanceof Integer || $other instanceof Rational) {
-            return new Rational($this->num * $other->denom + $other->num * $this->denom,
-                                $this->denom * $other->denom);
+            return (new Rational($this->num * $other->denom + $other->num * $this->denom,
+                                $this->denom * $other->denom))->simplify();
         }
         elseif ($other instanceof Real) {
             return new Real($this->num/$this->denom + $other->num);
