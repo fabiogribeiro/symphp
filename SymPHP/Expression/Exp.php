@@ -34,4 +34,9 @@ class Exp
 
         return null;
     }
+
+    public function asCoeff()
+    {
+        return [new Integer(1), $this];
+    }
 }
