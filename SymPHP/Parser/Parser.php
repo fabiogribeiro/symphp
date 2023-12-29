@@ -181,7 +181,7 @@ class Parser
                 $out = new Integer(intval($token->value));
                 break;
             case TokenType::Float:
-                $out = new Real(floatval($token->value));
+                $out = new Real(floatval(str_replace(',', '.', $token->value)));
                 break;
             case TokenType::Symbol:
                 $out = new Symbol($token->value);

@@ -10,7 +10,7 @@ use SymPHP\Lexer\TokenType;
 
 class LexerTest extends TestCase
 {
-    private $lexer;
+    private Lexer $lexer;
 
     public static function tokenDataProvider(): array
     {
@@ -38,14 +38,14 @@ class LexerTest extends TestCase
 
     public function testEdgeCases() : void
     {
-        $this->assertEquals(0, count($this->lexer->tokenize('  ')));
-        $this->assertEquals(3, count($this->lexer->tokenize('3 + 1.1')));
+        $this->assertCount(0, $this->lexer->tokenize('  '));
+        $this->assertCount(3, $this->lexer->tokenize('3 + 1.1'));
 
         $this->expectException('Exception');
         $this->lexer->tokenize('@');
     }
 
-    #[TestDox('Tokenizes individual token $input')]
+    #[TestDox('Tokenizes individual token \'$input\'')]
     #[DataProvider('tokenDataProvider')]
     public function testIndividualToken(string $input, string $val, TokenType $type) : void
     {
