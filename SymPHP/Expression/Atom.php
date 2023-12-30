@@ -12,4 +12,9 @@ trait Atom
     {
         return $this->num;
     }
+
+    public function evaluate(array $symbols=null)
+    {
+        return $this;
+    }
 }

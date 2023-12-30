@@ -90,4 +90,13 @@ trait Operation
 
         return new Div($this, $other);
     }
+
+    public function evaluate(array $symbols=null)
+    {
+        for ($i = 0; $i < count($this->terms); ++$i) {
+            $this->terms[$i] = $this->terms[$i]->evaluate($symbols);
+        }
+
+        return $this->simplify();
+    }
 }

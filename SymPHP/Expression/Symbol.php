@@ -58,6 +58,11 @@ class Symbol
         return $this;
     }
 
+    public function evaluate(array $symbols=null)
+    {
+        return new Real(floatval(str_replace(',', '.', $symbols[$this->num])));
+    }
+
     public function asCoeff()
     {
         return [new Integer(1), $this];

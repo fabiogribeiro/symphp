@@ -16,10 +16,10 @@ class Func
         return $this;
     }
 
-    public function evaluate()
+    public function evaluate(array $symbols=null)
     {
         $func = $this->terms[0];
-        $expr = $this->terms[1];
+        $expr = $this->terms[1]->evaluate($symbols);
 
         if (isset($expr->isAtom) && !($expr instanceof Symbol)) {
             return new Real($func($expr->num / $expr->denom));
