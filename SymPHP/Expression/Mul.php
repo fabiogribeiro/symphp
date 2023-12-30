@@ -81,4 +81,17 @@ class Mul
 
         return [new Integer(1), $this];
     }
+
+    public function distribute()
+    {
+        if (count($this->terms) == 2 && ($adds = $this->terms[1]) instanceof Add) {
+            $newTerms = array_map(function($el) {
+                return new Mul($this->terms[0], $el);
+            }, $adds->terms);
+
+            return new Add(...$newTerms);
+        }
+
+        return $this;
+    }
 }
