@@ -45,7 +45,7 @@ class Add
         }
 
         foreach($similar as $k => $v) {
-            $similar[$k] = (new Mul($v[0], $v[1]))->simplify();
+            $similar[$k] = (new Mul($v[0], $v[1]))->flatten()->simplify();
         }
 
         $rest = array_merge(array_values($similar), $rest);

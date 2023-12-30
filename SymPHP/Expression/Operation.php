@@ -49,19 +49,23 @@ trait Operation
 
             return (new Add(array_shift($ts), new Mul(new Integer(-1), ...$ts)))->flatten();
         }
+        elseif ($this instanceof Div) {
+            if (count($this->terms) === 2) {
+                return new Mul($this->terms[0], new Exp($this->terms[1], new Integer(-1)));
+            }
+        }
 
         return $this;
     }
 
     public function equals($other): bool
     {
-        // Use this for now.
-        return $this == $other;
+        return $this == $other || $this->sub($other)->flatten()->simplify() == new Integer(0);
     }
 
     public function add($other)
     {
-        return new Add($this, $other); 
+        return new Add($this, $other);
     }
 
     public function sub($other=null)
@@ -75,7 +79,7 @@ trait Operation
 
     public function mul($other)
     {
-        return new Mul($this, $other);        
+        return new Mul($this, $other);
     }
 
     public function div($other=null)

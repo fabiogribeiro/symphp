@@ -79,6 +79,6 @@ class Mul
             return [$this->terms[0], $rest[0]];
         }
 
-        return null;
+        return [new Integer(1), $this];
     }
 }
