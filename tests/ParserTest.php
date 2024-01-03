@@ -40,4 +40,28 @@ class ParserTest extends TestCase
     {
         $this->assertEquals($this->parser->parse($input)->__toString(), $expected);
     }
+
+    public function testParsesUnary(): void
+    {
+        $expr = $this->parser->parse('-3')->simplify();
+        echo $expr, " ";
+
+        $expr = $this->parser->parse('--3')->simplify();
+        echo $expr, " ";
+
+        $expr = $this->parser->parse('++3')->simplify();
+        echo $expr, " ";
+
+        $expr = $this->parser->parse('3 --+3')->simplify();
+        echo $expr;
+
+        $this->expectOutputString('-3 3 3 6');
+    }
+
+    public function testParsesFancyExpression(): void
+    {
+        $expr = $this->parser->parse('sin(x^2) + 2 - 4 * 3! + 3 / 2^y');
+        $this->expectOutputString('Add(Sub(Add(sin(Exp(x, 2)), 2), Mul(4, Factorial(3))), Div(3, Exp(2, y)))');
+        echo $expr;
+    }
 }

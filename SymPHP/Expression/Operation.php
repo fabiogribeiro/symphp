@@ -47,11 +47,11 @@ trait Operation
                 return $el;
             }, $this->terms);
 
-            return (new Add(array_shift($ts), new Mul(new Integer(-1), ...$ts)))->flatten();
+            return (new Add(array_shift($ts), (new Mul(new Integer(-1), ...$ts))->distribute()))->flatten();
         }
         elseif ($this instanceof Div) {
             if (count($this->terms) === 2) {
-                return new Mul($this->terms[0], new Exp($this->terms[1], new Integer(-1)));
+                return (new Mul($this->terms[0], new Exp($this->terms[1], new Integer(-1))))->flatten();
             }
         }
 

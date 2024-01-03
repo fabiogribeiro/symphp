@@ -49,7 +49,7 @@ class Add
         }
 
         $rest = array_merge(array_values($similar), $rest);
-        if (!$rest) {
+        if (!$rest || $rest == [new Integer(0)]) {
             return $r;
         }
         if ($r->num === 0) {
