@@ -8,14 +8,7 @@ class Add
 
     public function __construct(...$terms)
     {
-        $this->terms = [];
-        foreach($terms as $term) {
-            if (isset($term->isAtom) && $term->num === 0) {
-                continue;
-            }
-
-            $this->terms[] = $term;
-        }
+        $this->terms = $terms;
     }
 
     public function simplify()
@@ -48,8 +41,11 @@ class Add
             $similar[$k] = (new Mul($v[0], $v[1]))->flatten()->simplify();
         }
 
-        $rest = array_merge(array_values($similar), $rest);
-        if (!$rest || $rest == [new Integer(0)]) {
+        $rest = array_filter(array_merge(array_values($similar), $rest), function($el) {
+            return $el != new Integer(0);
+        });
+
+        if (!$rest) {
             return $r;
         }
         if ($r->num === 0) {

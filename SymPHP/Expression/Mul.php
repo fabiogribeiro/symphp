@@ -8,14 +8,7 @@ class Mul
 
     public function __construct(...$terms)
     {
-        $this->terms = [];
-        foreach($terms as $term) {
-            if ($term instanceof Integer && $term->num === 1) {
-                continue;
-            }
-
-            $this->terms[] = $term;
-        }
+        $this->terms = $terms;
     }
 
     public function simplify()

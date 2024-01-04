@@ -13,7 +13,10 @@ class Integer
 
     public function add($other)
     {
-        if ($other instanceof Integer) {
+        if ($this->num === 0) {
+            return $other;
+        }
+        elseif ($other instanceof Integer) {
             return new Integer($this->num  + $other->num);
         }
         elseif ($other instanceof Real) {
@@ -37,7 +40,10 @@ class Integer
 
     public function mul($other)
     {
-        if ($other instanceof Integer) {
+        if ($this->num === 1 && $this->denom === 1) {
+            return $other;
+        }
+        elseif ($other instanceof Integer) {
             return new Integer($this->num * $other->num);
         }
         elseif ($other instanceof Real) {

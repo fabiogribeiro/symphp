@@ -98,4 +98,9 @@ class Rational
 
         return $this;
     }
+
+    public function evaluate(array $symbols=null)
+    {
+        return new Real($this->num / $this->denom);
+    }
 }
