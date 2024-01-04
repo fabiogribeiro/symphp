@@ -6,9 +6,27 @@ class Symbol
 {
     use Atom;
 
-    public function __construct($val)
+    public readonly ?string $constName;
+
+    public function __construct($val, ?string $name=null)
     {
-        $this->num = $val;
+        $this->constName = $name;
+
+        if ($name === 'pi') {
+            $this->num = 3.14159265359;
+        }
+        else {
+            $this->num = $val;
+        }
+    }
+
+    public function __toString()
+    {
+        if ($this->constName) {
+            return $this->constName;
+        }
+
+        return $this->num;
     }
 
     public function add($other)
@@ -60,6 +78,11 @@ class Symbol
 
     public function evaluate(array $symbols=null)
     {
+        // Know constant
+        if ($this->constName) {
+            return new Real($this->num);
+        }
+
         return new Real(floatval(str_replace(',', '.', $symbols[$this->num])));
     }
 

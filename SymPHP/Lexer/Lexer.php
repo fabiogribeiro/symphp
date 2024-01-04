@@ -15,6 +15,7 @@ class Lexer
         '/sin/' => TokenType::Function,
         '/cos/' => TokenType::Function,
         '/tan/' => TokenType::Function,
+        '/pi/' => TokenType::Constant,
         '/\(/' => TokenType::Open,
         '/\)/' => TokenType::Close,
         '/\+/' => TokenType::Addition,

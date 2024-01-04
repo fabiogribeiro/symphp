@@ -217,6 +217,9 @@ class Parser
             case TokenType::Function:
                 $out = new Func($token->value, $this->outputStack->pop());
                 break;
+            case TokenType::Constant:
+                $out = new Symbol($token->value, $token->value);
+                break;
         }
 
         $this->outputStack->push($out);

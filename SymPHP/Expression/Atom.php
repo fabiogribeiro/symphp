@@ -17,4 +17,9 @@ trait Atom
     {
         return $this;
     }
+
+    public function simplify()
+    {
+        return $this;
+    }
 }
