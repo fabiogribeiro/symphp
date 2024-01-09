@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Div
+use SymPHP\Expression\MathObject;
+
+class Div implements MathObject
 {
     use Operation;
 
@@ -11,7 +13,7 @@ class Div
         $this->terms = $terms;
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         if (($n = count($this->terms)) > 2) {
             $this->terms[1] = (new Mul(...array_slice($this->terms, 1)))->simplify();

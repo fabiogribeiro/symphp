@@ -2,6 +2,8 @@
 
 namespace SymPHP\Expression;
 
+use SymPHP\Expression\MathObject;
+
 trait Operation
 {
     public array $terms;
@@ -17,7 +19,7 @@ trait Operation
     /**
      *  Since +, * is associative, try to group as many as possible in the same op.
      */
-    public function flatten()
+    public function flatten(): MathObject
     {
         if ($this instanceof Add || $this instanceof Mul) {
             $className = $this::class;
@@ -63,12 +65,12 @@ trait Operation
         return $this == $other || $this->sub($other)->flatten()->simplify() == new Integer(0);
     }
 
-    public function add($other)
+    public function add(MathObject $other): MathObject
     {
         return new Add($this, $other);
     }
 
-    public function sub($other=null)
+    public function sub(?MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Mul(new Integer(-1), $this);
@@ -77,12 +79,12 @@ trait Operation
         return new Sub($this, $other);
     }
 
-    public function mul($other)
+    public function mul(MathObject $other): MathObject
     {
         return new Mul($this, $other);
     }
 
-    public function div($other=null)
+    public function div(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Div(new Integer(1), $this);
@@ -91,7 +93,7 @@ trait Operation
         return new Div($this, $other);
     }
 
-    public function evaluate(array $symbols=null)
+    public function evaluate(?array $symbols=null): MathObject
     {
         for ($i = 0; $i < count($this->terms); ++$i) {
             $this->terms[$i] = $this->terms[$i]->evaluate($symbols);

@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Add
+use SymPHP\Expression\MathObject;
+
+class Add implements MathObject
 {
     use Operation;
 
@@ -11,7 +13,7 @@ class Add
         $this->terms = $terms;
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         $r = new Integer(0);
         $similar = [];

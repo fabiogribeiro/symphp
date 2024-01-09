@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Mul
+use SymPHP\Expression\MathObject;
+
+class Mul implements MathObject
 {
     use Operation;
 
@@ -11,7 +13,7 @@ class Mul
         $this->terms = $terms;
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         $r = new Integer(1);
         $similar = [];
@@ -75,7 +77,7 @@ class Mul
         return [new Integer(1), $this];
     }
 
-    public function distribute()
+    public function distribute(): MathObject
     {
         if (count($this->terms) == 2 && ($adds = $this->terms[1]) instanceof Add) {
             $newTerms = array_map(function($el) {

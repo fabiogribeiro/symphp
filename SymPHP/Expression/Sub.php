@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Sub
+use SymPHP\Expression\MathObject;
+
+class Sub implements MathObject
 {
     use Operation;
 
@@ -11,7 +13,7 @@ class Sub
         $this->terms = $terms;
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         return $this->flatten()->simplify();
     }

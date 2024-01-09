@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Symbol
+use SymPHP\Expression\MathObject;
+
+class Symbol implements MathObject
 {
     use Atom;
 
@@ -13,7 +15,7 @@ class Symbol
         $this->constName = $name;
 
         if ($name === 'pi') {
-            $this->num = 3.14159265359;
+            $this->num = M_PI;
         }
         else {
             $this->num = $val;
@@ -29,12 +31,12 @@ class Symbol
         return $this->num;
     }
 
-    public function add($other)
+    public function add(MathObject $other): MathObject
     {
         return new Add($this, $other);
     }
 
-    public function sub($other=null)
+    public function sub(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Mul(new Integer(-1), $this);
@@ -43,12 +45,12 @@ class Symbol
         return new Sub($this, $other);
     }
 
-    public function mul($other)
+    public function mul(MathObject $other): MathObject
     {
         return new Mul($this, $other);
     }
 
-    public function div($other=null)
+    public function div(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Div(new Integer(1), $this);
@@ -57,7 +59,7 @@ class Symbol
         return new Div($this, $other);
     }
 
-    public function exp($other)
+    public function exp(MathObject $other): MathObject
     {
         if (isset($other->isAtom)) {
             if ($other->num === 0) {
@@ -71,12 +73,12 @@ class Symbol
         return new Exp($this, $other);
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         return $this;
     }
 
-    public function evaluate(array $symbols=null)
+    public function evaluate(array $symbols=null): MathObject
     {
         // Know constant
         if ($this->constName) {

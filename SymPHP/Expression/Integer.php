@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Integer
+use SymPHP\Expression\MathObject;
+
+class Integer implements MathObject
 {
     use Atom;
 
@@ -11,7 +13,7 @@ class Integer
         $this->num = $val;
     }
 
-    public function add($other)
+    public function add(MathObject $other): MathObject
     {
         if ($this->num === 0) {
             return $other;
@@ -29,7 +31,7 @@ class Integer
         return new Add($this, $other);
     }
 
-    public function sub($other=null)
+    public function sub(?MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Integer(-$this->num);
@@ -38,7 +40,7 @@ class Integer
         return $this->add($other->sub());
     }
 
-    public function mul($other)
+    public function mul(MathObject $other): MathObject
     {
         if ($this->num === 1 && $this->denom === 1) {
             return $other;
@@ -56,7 +58,7 @@ class Integer
         return new Mul($this, $other);
     }
 
-    public function div($other=null)
+    public function div(?MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Rational(1, $this->num);
@@ -65,7 +67,7 @@ class Integer
         return $this->mul($other->div());
     }
 
-    public function exp($other)
+    public function exp(MathObject $other): MathObject
     {
         if ($other instanceof Integer) {
             return new Integer(pow($this->num, $other->num));
@@ -75,10 +77,5 @@ class Integer
         }
 
         return new Exp($this, $other);
-    }
-
-    public function simplify()
-    {
-        return $this;
     }
 }

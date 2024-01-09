@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Factorial
+use SymPHP\Expression\MathObject;
+
+class Factorial implements MathObject
 {
     use Operation;
 
@@ -11,12 +13,12 @@ class Factorial
         $this->terms = [$expr];   
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         return $this;
     }
 
-    public function evaluate(array $symbols = null)
+    public function evaluate(?array $symbols = null): MathObject
     {
         $this->terms[0] = $this->terms[0]->evaluate($symbols)->simplify();
         if (isset($this->terms[0]->isAtom)) {

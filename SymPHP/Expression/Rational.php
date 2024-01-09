@@ -2,6 +2,8 @@
 
 namespace SymPHP\Expression;
 
+use SymPHP\Expression\MathObject;
+
 function gcd(int $a, int $b) : int
 {
     $m = $a % $b;
@@ -10,7 +12,7 @@ function gcd(int $a, int $b) : int
     return gcd($b, $m);
 }
 
-class Rational
+class Rational implements MathObject
 {
     use Atom;
 
@@ -25,7 +27,7 @@ class Rational
         return $this->num . '/' . $this->denom;
     }
 
-    public function add($other)
+    public function add(MathObject $other): MathObject
     {
         if ($other instanceof Integer || $other instanceof Rational) {
             return (new Rational($this->num * $other->denom + $other->num * $this->denom,
@@ -38,7 +40,7 @@ class Rational
         return new Add($this, $other);
     }
 
-    public function sub($other=null)
+    public function sub(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Rational(-$this->num, $this->denom);
@@ -47,7 +49,7 @@ class Rational
         return $this->add($other->sub());
     }
 
-    public function mul($other)
+    public function mul(MathObject $other): MathObject
     {
         if ($other instanceof Integer || $other instanceof Rational) {
             return (new Rational($this->num * $other->num, $this->denom * $other->denom))->simplify();
@@ -59,7 +61,7 @@ class Rational
         return new Mul($this, $other);
     }
 
-    public function div($other=null)
+    public function div(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Rational($this->denom, $this->num);
@@ -68,7 +70,7 @@ class Rational
         return $this->mul($other->div());
     }
 
-    public function exp($other)
+    public function exp(MathObject $other): MathObject
     {
         if ($other instanceof Integer) {
             return (new Rational(pow($this->num, $other->num), pow($this->denom, $other->num)))->simplify();
@@ -80,7 +82,7 @@ class Rational
         return new Exp($this, $other);
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         if ($this->num === 0) {
             return new Integer(0);
@@ -99,7 +101,7 @@ class Rational
         return $this;
     }
 
-    public function evaluate(array $symbols=null)
+    public function evaluate(?array $symbols=null): MathObject
     {
         return new Real($this->num / $this->denom);
     }

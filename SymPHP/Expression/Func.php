@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Func
+use SymPHP\Expression\MathObject;
+
+class Func implements MathObject
 {
     use Operation;
 
@@ -11,12 +13,12 @@ class Func
         $this->terms = [$name, $expr];
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         return $this;
     }
 
-    public function evaluate(array $symbols=null)
+    public function evaluate(?array $symbols=null): MathObject
     {
         $func = $this->terms[0];
         $expr = $this->terms[1]->evaluate($symbols);

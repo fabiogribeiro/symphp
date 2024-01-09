@@ -2,7 +2,9 @@
 
 namespace SymPHP\Expression;
 
-class Real
+use SymPHP\Expression\MathObject;
+
+class Real implements MathObject
 {
     use Atom;
 
@@ -11,7 +13,7 @@ class Real
         $this->num = $val;
     }
 
-    public function add($other)
+    public function add(MathObject $other): MathObject
     {
         if ($other instanceof Real || $other instanceof Integer) {
             return new Real($this->num + $other->num);
@@ -23,7 +25,7 @@ class Real
         return new Add($this, $other);
     }
 
-    public function sub($other=null)
+    public function sub(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Real(-$this->num);
@@ -32,7 +34,7 @@ class Real
         return $this->add($other->sub());
     }
 
-    public function mul($other)
+    public function mul(MathObject $other): MathObject
     {
         if ($other instanceof Real || $other instanceof Integer) {
             return new Real($this->num * $other->num);
@@ -44,7 +46,7 @@ class Real
         return new Mul($this, $other);
     }
 
-    public function div($other=null)
+    public function div(MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Real(1/$this->num);
@@ -53,7 +55,7 @@ class Real
         return $this->mul($other->div());
     }
 
-    public function exp($other)
+    public function exp(MathObject $other): MathObject
     {
         if (!($other instanceof Symbol) && isset($other->isAtom)) {
             return new Real(pow($this->num, $other->num/$other->denom));
@@ -62,7 +64,7 @@ class Real
         return new Exp($this, $other);
     }
 
-    public function simplify()
+    public function simplify(): MathObject
     {
         return $this;
     }

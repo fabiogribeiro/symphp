@@ -13,12 +13,22 @@ trait Atom
         return $this->num;
     }
 
-    public function evaluate(array $symbols=null)
+    public function evaluate(?array $symbols=null): MathObject
     {
         return $this;
     }
 
-    public function simplify()
+    public function simplify(): MathObject
+    {
+        return $this;
+    }
+
+    public function equals(MathObject $other): bool
+    {
+        return $this == $other;
+    }
+
+    public function flatten(): MathObject
     {
         return $this;
     }
