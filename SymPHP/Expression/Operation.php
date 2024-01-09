@@ -60,7 +60,7 @@ trait Operation
         return $this;
     }
 
-    public function equals($other): bool
+    public function equals(MathObject $other, ?float $tolerance=null): bool
     {
         return $this == $other || $this->sub($other)->flatten()->simplify() == new Integer(0);
     }

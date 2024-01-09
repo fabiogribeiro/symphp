@@ -23,8 +23,14 @@ trait Atom
         return $this;
     }
 
-    public function equals(MathObject $other): bool
+    public function equals(MathObject $other, ?float $tolerance=null): bool
     {
+        if ($tolerance) {
+            $res = $this->sub($other);
+            if (!($res instanceof Symbol) && isset($res->isAtom))
+                return $res->num / $res->denom < $tolerance;
+        }
+
         return $this == $other;
     }
 
