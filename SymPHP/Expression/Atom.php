@@ -28,7 +28,7 @@ trait Atom
         if ($tolerance) {
             $res = $this->sub($other);
             if (!($res instanceof Symbol) && isset($res->isAtom))
-                return $res->num / $res->denom < $tolerance;
+                return abs($res->num / $res->denom) < $tolerance;
         }
 
         return $this == $other;

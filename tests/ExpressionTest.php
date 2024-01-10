@@ -80,5 +80,9 @@ class ExpressionTest extends TestCase
         $a = $this->parser->parse('2*x^2 - 3 + x/b')->flatten()->simplify();
         $b = $this->parser->parse('-3 + x/b + 2*x^2')->flatten()->simplify();
         $this->assertTrue($a->equals($b));
+
+        $c = $this->parser->parse('1.5');
+        $d = $this->parser->parse('3/2')->simplify();
+        $this->assertTrue($c->equals($d, 1e-7));
     }
 }
