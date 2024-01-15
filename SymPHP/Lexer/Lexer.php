@@ -24,7 +24,7 @@ class Lexer
         '/\//' => TokenType::Division,
         '/\^/' => TokenType::Exponentiation,
         '/\!/' => TokenType::Factorial,
-        '/[a-zA-Z]/' => TokenType::Symbol,
+        '/\w+/' => TokenType::Symbol,
         '/\n/' => TokenType::Terminator,
         '/\s+/' => TokenType::Space,
     ];
