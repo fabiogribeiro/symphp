@@ -11,7 +11,7 @@ class ParserTest extends TestCase
 
     public static function nonsenseDataProvider(): array
     {
-        return [[' '], ['@'], ['-'], ['2x'], ['1 +'], ['1 + 1 /'], ['/ 1 + 1'], ['1 -* 3']];
+        return [[' '], ['@'], ['-'], ['1 +'], ['1 + 1 /'], ['/ 1 + 1'], ['1 -* 3']];
     }
 
     public static function atomsDataProvider(): array

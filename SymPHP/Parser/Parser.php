@@ -28,7 +28,14 @@ class Parser
 
         foreach ($tokens as $token) {
             if ($token->isAtom) {
-                if ($lastProcessedToken?->isAtom) {
+                if ($token->type === TokenType::Symbol &&
+                    ($lastProcessedToken?->type === TokenType::Float ||
+                    $lastProcessedToken?->type === TokenType::Integer)) {
+
+                        $this->processOperator(new Token('*', TokenType::Multiplication));
+                        $this->pushToOutput($token);
+                }
+                elseif ($lastProcessedToken?->isAtom) {
                     throw new Exception("Syntax error");
                 }
                 else {
