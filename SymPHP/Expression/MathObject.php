@@ -12,4 +12,5 @@ interface MathObject
     public function simplify(): MathObject;
     public function evaluate(?array $symbols): MathObject;
     public function flatten(): MathObject;
+    public function __toString(): string;
 }

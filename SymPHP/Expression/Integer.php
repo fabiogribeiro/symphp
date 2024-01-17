@@ -24,7 +24,7 @@ class Integer implements MathObject
         elseif ($other instanceof Real) {
             return new Real($this->num  + $other->num);
         }
-        elseif ($other instanceof Rational) {
+        elseif ($other instanceof Rational || $other instanceof Complex) {
             return $other->add($this);
         }
 
@@ -51,7 +51,7 @@ class Integer implements MathObject
         elseif ($other instanceof Real) {
             return new Real($this->num * $other->num);
         }
-        elseif ($other instanceof Rational) {
+        elseif ($other instanceof Rational || $other instanceof Complex) {
             return $other->mul($this);
         }
 

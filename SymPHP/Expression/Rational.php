@@ -36,6 +36,9 @@ class Rational implements MathObject
         elseif ($other instanceof Real) {
             return new Real($this->num/$this->denom + $other->num);
         }
+        elseif ($other instanceof Complex) {
+            return $other->add($this);
+        }
 
         return new Add($this, $other);
     }
@@ -56,6 +59,9 @@ class Rational implements MathObject
         }
         elseif ($other instanceof Real) {
             return new Real($this->num/$this->denom * $other->num);
+        }
+        elseif ($other instanceof Complex) {
+            return $other->mul($this);
         }
 
         return new Mul($this, $other);
