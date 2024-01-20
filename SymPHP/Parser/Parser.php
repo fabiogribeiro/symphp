@@ -222,7 +222,13 @@ class Parser
                 $out = new Factorial($this->outputStack->pop());
                 break;
             case TokenType::Function:
-                $out = new Func($token->value, $this->outputStack->pop());
+                $fname = $token->value;
+                if ($fname === 'ln')
+                    $fname = 'log';
+                elseif ($fname === 'log')
+                    $fname = 'log10';
+
+                $out = new Func($fname, $this->outputStack->pop());
                 break;
             case TokenType::Constant:
                 $out = new Symbol($token->value, $token->value);

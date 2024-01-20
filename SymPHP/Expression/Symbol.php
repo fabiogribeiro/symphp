@@ -17,6 +17,9 @@ class Symbol implements MathObject
         if ($name === 'pi') {
             $this->num = M_PI;
         }
+        elseif ($name === 'e') {
+            $this->num = M_E;
+        }
         else {
             $this->num = $val;
         }
