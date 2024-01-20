@@ -3,7 +3,9 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+
 use SymPHP\Parser\Parser;
+use SymPHP\Expression\{Integer, Complex};
 
 class ExpressionTest extends TestCase
 {
@@ -68,6 +70,9 @@ class ExpressionTest extends TestCase
 
         $expr = $this->parser->parse('3/2')->simplify()->evaluate();
         $this->assertEqualsWithDelta(floatval($expr->__toString()), 1.5, 1e-7);
+
+        $expr = $this->parser->parse('ln(e^2)')->evaluate();
+        $this->assertEqualsWithDelta(floatval($expr->__toString()), 2, 1e-7);
     }
 
     public function testCanSimplifyPolynomial(): void
@@ -85,5 +90,13 @@ class ExpressionTest extends TestCase
         $c = $this->parser->parse('1.5');
         $d = $this->parser->parse('3/2')->simplify();
         $this->assertTrue($c->equals($d, 1e-7));
+    }
+
+    public function testCanOperateComplexNumbers(): void
+    {
+        $cmp = $this->parser->parse('-2')->simplify();
+        $num = new Complex(new Integer(1), new Integer(-1));
+
+        $this->assertTrue($cmp->equals($num->mul($num)->img));
     }
 }

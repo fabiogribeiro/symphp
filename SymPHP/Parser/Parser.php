@@ -28,7 +28,7 @@ class Parser
 
         foreach ($tokens as $token) {
             if ($token->isAtom) {
-                if ($token->type === TokenType::Symbol &&
+                if (($token->type === TokenType::Symbol || $token->type === TokenType::Constant) &&
                     ($lastProcessedToken?->type === TokenType::Float ||
                     $lastProcessedToken?->type === TokenType::Integer)) {
 
