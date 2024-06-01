@@ -90,6 +90,10 @@ class ExpressionTest extends TestCase
         $c = $this->parser->parse('1.5');
         $d = $this->parser->parse('3/2')->simplify();
         $this->assertTrue($c->equals($d, 1e-7));
+
+        $e = $this->parser->parse('oo*(-1)')->simplify();
+        $f = $this->parser->parse('-1*oo')->simplify();
+        $this->assertTrue($e->equals($f));
     }
 
     public function testCanOperateComplexNumbers(): void

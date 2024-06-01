@@ -22,7 +22,7 @@ class Mul implements MathObject
         foreach ($this->terms as $term) {
             $term = $term->simplify();
 
-            if (!($term instanceof Symbol) && isset($term->isAtom)) {
+            if (!($term instanceof Symbol || $term instanceof Infty) && isset($term->isAtom)) {
                 if ($term->num === 0) {
                     return new Integer(0);
                 }

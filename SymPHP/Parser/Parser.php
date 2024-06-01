@@ -5,7 +5,7 @@ namespace SymPHP\Parser;
 use Exception;
 use SymPHP\Lexer\{Lexer, Token, TokenType};
 use SymPHP\Parser\Stack;
-use SymPHP\Expression\{Integer, Real, Add, Sub, Mul, Div, Exp, Factorial, Symbol, Func};
+use SymPHP\Expression\{Integer, Real, Add, Sub, Mul, Div, Exp, Factorial, Symbol, Func, Infty};
 
 class Parser
 {
@@ -232,6 +232,9 @@ class Parser
                 break;
             case TokenType::Constant:
                 $out = new Symbol($token->value, $token->value);
+                break;
+            case TokenType::Infinity:
+                $out = new Infty();
                 break;
         }
 

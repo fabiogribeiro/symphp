@@ -21,7 +21,8 @@ class Token
         if ($this->type === TokenType::Integer  ||
             $this->type === TokenType::Float    ||
             $this->type === TokenType::Symbol   ||
-            $this->type === TokenType::Constant) {
+            $this->type === TokenType::Constant ||
+            $this->type === TokenType::Infinity) {
                 $this->isAtom = true;
         }
         else {

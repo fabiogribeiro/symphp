@@ -17,7 +17,7 @@ class ParserTest extends TestCase
     public static function atomsDataProvider(): array
     {
         return [['2', '2'], ['1,1', '1.1'], ['1.1', '1.1'], ['x', 'x'], ['x_1', 'x_1'],
-                ['sin(2)', 'sin(2)'], ['x!', 'Factorial(x)']];
+                ['sin(2)', 'sin(2)'], ['x!', 'Factorial(x)'], ['infty', 'oo']];
     }
 
     public function setUp() : void

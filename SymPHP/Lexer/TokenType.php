@@ -17,6 +17,7 @@ enum TokenType : string
     case Factorial = 'Factorial';
     case Function = 'Function';
     case Constant = 'Constant';
+    case Infinity = 'Infinity';
     case Terminator = 'Terminator';
     case Space = 'Space';
 }

@@ -63,9 +63,4 @@ class Real implements MathObject
 
         return new Exp($this, $other);
     }
-
-    public function simplify(): MathObject
-    {
-        return $this;
-    }
 }
