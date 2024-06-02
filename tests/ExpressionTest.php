@@ -28,6 +28,7 @@ class ExpressionTest extends TestCase
             ['1 - x', 'Add(1, Mul(-1, x))'],
             ['3 * x', 'Mul(3, x)'],
             ['3y', 'Mul(3, y)'],
+            ['(-1)sqrt(x)', 'Mul(-1, sqrt(x))'],
             ['1 / x', 'Div(1, x)'],
             ['x^3', 'Exp(x, 3)'],
         ];

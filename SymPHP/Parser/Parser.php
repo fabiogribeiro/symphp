@@ -104,10 +104,11 @@ class Parser
                 }
             }
             elseif ($token->type === TokenType::Function) {
-                if ($lastProcessedToken && !($lastProcessedToken->isOperator ||
-                                            $lastProcessedToken->type === TokenType::Open)) {
+                if ($lastProcessedToken && ($lastProcessedToken->isAtom ||
+                                            $lastProcessedToken->type === TokenType::Close ||
+                                            $lastProcessedToken->type === TokenType::Factorial)) {
 
-                    throw new Exception("Syntax error.");
+                    $this->processOperator(new Token('*', TokenType::Multiplication));
                 }
 
                 $this->operatorStack->push($token);
