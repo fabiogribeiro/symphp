@@ -23,7 +23,7 @@ class Infty implements MathObject
         return new Add($this, $other);
     }
 
-    public function sub(?MathObject $other): MathObject
+    public function sub(?MathObject $other=null): MathObject
     {
         if (!$other) {
             return new Mul(new Integer(-1), new Infty());
